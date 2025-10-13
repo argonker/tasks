@@ -16,12 +16,12 @@ where ``delta = x_i - 0.5*(x_i + x/x_i)``
 ## Task 2_2_1
 
 **INTERFACE**\
-x -- point x \
-sequence -- coefficients\ 
-Spacebar, Tab, Enter -- separation\
-Ctrl + D -- symbol of the end of file\
+x -- point x  
+sequence -- coefficients  
+Spacebar, Tab, Enter -- separation  
+Ctrl + D -- symbol of the end of file  
 
-**PROGRAM**
+**PROGRAM**  
 To calculate the value of a polynomial at a point x was used Horner's scheme:
 ```
 result *= x;
@@ -32,7 +32,7 @@ result += a;
 ## Task 2_2_2
 
 This program is a modified version of **Task2_2_1**\
-To calculate the value of a deriative at a point x was added new variable `deriative`\
+To calculate the value of a deriative at a point x was added new variable `deriative`  
 Accumulation of the `deriative` happens before accumulation of the `result`:
 ```
 deriative *= x;
@@ -49,7 +49,7 @@ n -- degree of polynomial\
 x -- point x\
 sequence -- coefficients\
 Spacebar, Tab, Enter -- separation\
-Ctrl + D -- symbol of the end of file\
+Ctrl + D -- symbol of the end of file  
 
 **PROGRAM**
 This program is a modified version of **Task2_2_2**\
@@ -66,7 +66,7 @@ integral = (integral + a/n)*x;
 ## Task 2_3
 
 **INTERFACE**\
-i -- Fibonacci number ordinal\
+i -- Fibonacci number ordinal  
 
 **FUNCTIONS**
 
@@ -89,9 +89,9 @@ real -- valid real number in C\
 Spacebar, Tab, Enter -- separation\
 real\
 ...\
-Ctrl + D -- symbol of the end of the file to finish the program \
+Ctrl + D -- symbol of the end of the file to finish the program   
 
-**FUNCTIONS**\
+**FUNCTIONS**  
 
 Function `double power(double base, int n)` implements raising to an integer power\
 
@@ -104,11 +104,11 @@ double power(double base, int n) {
     return p;
     }
 ```
-Function `double exponent(double x, char str[], int i) performs raising the integer \part to the power specified by the exponent using function `power()`:
-`return x * power(j, p);`\
-where j - base of the exponent\
+Function `double exponent(double x, char str[], int i)` performs raising the integer  part to the power specified by the exponent using function `power()`:  
+`return x * power(j, p);`  
+where j - base of the exponent  
 
-Tracking of the sign of the exponent also occurs in this function:
+Tracking of the sign of the exponent also occurs in this function:  
 ```
 double j = 10.0;
 if (str[i] == '-')
@@ -123,12 +123,12 @@ double j, result = 0.0;
 	if (num[i] == '-') {
     	sign = -1;
 ```
-Then it iteratively accumulates the result:\
+Then it iteratively accumulates the result:  
 ```
 result = result*10 + (num[i] - '0');
 ```
 
-and tracks the appearance of a point or exponent:
+and tracks the appearance of a point or exponent:  
 ```
 while (num[i] != '\0') {
 	if ((num[i] == 'e') || (num[i] == 'E'))
@@ -136,7 +136,7 @@ while (num[i] != '\0') {
     if (num[i] == '.') {
    		i += 1; 
 ```
-Appearence of a point starts a cycle:\
+Appearence of a point starts a cycle:  
 ```
 for (j = 10.0; num[i] != '\0'; j*=10, i++)
 	if ((num[i] == 'e') || (num[i] == 'E')) {
@@ -146,9 +146,9 @@ for (j = 10.0; num[i] != '\0'; j*=10, i++)
     else
     	result += (num[i] - '0')/j;
 ```
-that forms the final result\
+that forms the final result  
 
-Appearence of the exponent is tracked by variable `is_exp` and if `is_exp == 1`, function `exponent()` is executed to form the final result:
+Appearence of the exponent is tracked by variable `is_exp` and if `is_exp == 1`, function `exponent()` is executed to form the final result:  
 ```
 if (is_exp == 1) {
 	i += 1;
@@ -157,6 +157,6 @@ if (is_exp == 1) {
 ```
 As a result function returns a production of a result and a sign that was saved earlier in the `sign` variable
 
-**PROGRAM**
+**PROGRAM**  
 Program recieves a string `num`, then uses function `str2double()` to form an answer and prints it
 *** 
