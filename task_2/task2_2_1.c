@@ -1,6 +1,6 @@
 #include <stdio.h>
 int main(){
-	float x, a, result;
+	double x, a, result;
 	printf("Введите последовательость\n");
 	scanf("%f", &x);
 	result = 0.0;

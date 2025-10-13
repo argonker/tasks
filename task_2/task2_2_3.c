@@ -1,6 +1,6 @@
 #include <stdio.h>
 int main(){
-    float x, a, result, deriative, integral;
+    double x, a, result, deriative, integral;
 	int n;
     printf("Введите степень многочлена\n");
 	scanf("%d", &n);
