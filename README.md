@@ -163,12 +163,12 @@ Program recieves a string `num`, then uses function `str2double()` to form an an
 
 ## Task 2_5
 
-**INTERFACE**
+**INTERFACE**  
 string -- word  
 Spacebar, Enter, Tab -- separation  
 Ctrl + D -- EOF 
 
-**FUNCTIONS** 
+**FUNCTIONS**    
 `void AppendToList(list *l, char *str)` takes a pointer to a list and puts string at its end  
 
 `void PrintList` takes a pointer to list and prints it  
@@ -177,21 +177,21 @@ Ctrl + D -- EOF
 
 `void FreeList` takes a pointer to a list and deletes it  
 
-**PROGRAM**
+**PROGRAM**  
 A dynamic array `buff` was used to store the string in the node. Also were used 
 functions `strcopy` and `strcmp` from `<string.h>` library.
 ***
 
 ## Task 2_6
 
-**INTERFACE**
+**INTERFACE**  
 +(unsigned_integer > 0) -- To add a key to the tree  
 -(unsigned_integer > 0) -- To remove a key from the tree  
 ?(unsgined_integer > 0) -- To find out, is a key in the tree  
 Spacebar, Tab, Enter -- Separation  
 Ctrl + D -- EOF  
 
-**FUNCTIONS**
+**FUNCTIONS**    
 `void AddToTree(tnode *tree, int elem)` takes a pointer to a tree and puts new leaf with `elem` at the right place in it
 
 `void DeleteFromTree(tnode *tree, int elem)` takes a pointer to a tree and removes a leaf with `elem`, saving connections
@@ -201,16 +201,16 @@ If tree contains leaf with `elem`, prints "yes", else prints "no" and `elem`
 
 `void FreeTree(tnode **tree)` takes a pointer to a tree and deletes it
 
-**PROGRAM**
+**PROGRAM**  
 This program scans a string from stdin and executes a proper function, choice is based on a char variable `c`
 ***
 
 ## Task 2_7
 
-**INTERFACE** 
+**INTERFACE**     
 (unsigned_integer from [0,9]) (+, -, * , /, ^) -- expression
 
-**FUNCTIONS**
+**FUNCTIONS**  
 `void getlex(void` )extracts the next token from the input stream 
 
 `int expr(void)` recognizes the expression and calculates its value 
@@ -225,7 +225,7 @@ This program scans a string from stdin and executes a proper function, choice is
 
 `void error(void)` reports an error in the expression and passes control to the beginning of the main function (the begin point)
 
-**PROGRAM**
+**PROGRAM**  
 The program is based on recurrent descent. Each function forms a part of the response,   
 which is printed on the screen at the end of the work.
 Function `void expr(void)` was modified to be able to substract numbers:
