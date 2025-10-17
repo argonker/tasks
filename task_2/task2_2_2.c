@@ -1,6 +1,6 @@
 #include <stdio.h>
 int main(){
-	double x, a, result, deriative;
+	float x, a, result, deriative;
 	printf("Введите последовательость\n");
 	scanf("%f", &x);
 	result = deriative = 0.0;

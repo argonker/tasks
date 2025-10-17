@@ -15,8 +15,8 @@ char curlex; /* текущая лексема */
 void getlex(void); /* выделяет из входного потока очередную лексему */
 int expr(void);    /* распознает выражение и вычисляет его значение */
 int add(void);     /* распознает слагаемое и вычисляет его значение */
-int power(void);
-int num(void);
+int power(void);   /* распознает возведение в степень и вычисляет его значение */
+int num(void);     /* распознает цифру или скобку*/
 int mult(void);    /* распознает множитель и вычисляет его значение */
 void error(void);  /* сообщает об ошибке в выражении и передает управление
                     в начало функции main (точка begin) */
@@ -48,35 +48,42 @@ void error(void)
 int expr()
 {
 	int e = add();
-    while (curlex == '-')	
+    while ((curlex == '+') || (curlex == '-'))	
 	{ 
-		getlex();
-		e -= add();
+		if (curlex == '-')
+		{
+			getlex();
+			e -= add();
+		}
+	
+		if (curlex == '+')
+    	{	
+        	getlex();
+        	e += add();
+    	}
 	}
-	while (curlex == '+')
-    {
-        getlex();
-        e += add();
-    }
     return e;
 }
 
 int add()
 {
     int b, a = mult();
-    while (curlex == '/')
+    while ((curlex == '/') || (curlex == '*'))
 	{
-		getlex();
-		b = mult();
-		if (b == 0)
-			error();
-		else
-			a /= b;
-	}
-	while (curlex == '*')
-    {
-        getlex();
-        a *= mult();
+		if (curlex == '/')
+		{
+			getlex();
+			b = mult();
+			if (b == 0)
+				error();
+			else
+				a /= b;
+		}
+		if (curlex == '*')
+    	{
+        	getlex();
+       		a *= mult();
+		}
     }
     return a;
 }
