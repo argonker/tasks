@@ -12,7 +12,7 @@ typedef struct Node {
 
 typedef link list;
 
-int AppendToList(list *l, char *str) {
+void AppendToList(list *l, char *str) {
 	node *tmp = (node*)malloc(sizeof(node));
 	node *cur = *l;
 
@@ -21,23 +21,24 @@ int AppendToList(list *l, char *str) {
 	
 	strcpy(tmp->elem, str);
 
-	if ((l != NULL) && (*l == NULL)) {
+	if (*l == NULL) {
 		*l = tmp;
-		return 0;
+		return;
 	}
-	while (cur && (cur->next != NULL))
+	while (cur->next != NULL)
 		cur = cur->next;
 	
 	cur->next = tmp;
 }
 
-int PrintList(list l) {
+void PrintList(list l) {
 	node *tmp;
-	int i;
+
 	if (l == NULL) { 
 		printf("[]\n");
-		return 0;
+		return;
 	}
+
 	tmp = l;
 	printf("[ ");
 	while (tmp != NULL) {
@@ -47,34 +48,38 @@ int PrintList(list l) {
 	printf("]\n");
 }
 
-int ExcludeFromList(list *l, char *str) {
-	node *q = *l;
-	node *tmp = *l;
+void ExcludeFromList(list *l, char *str) {
+	node *cur = *l;
+	node *prev = NULL;
 	
 	if (*l == NULL)
-		return 0;	
-	
-	if (strcmp(tmp->elem, str) == 0) {
-		q = q->next;
-		free(tmp->elem);
-		free(tmp);
-		*l = q;
-	}
-	while (q->next && (q->next->next != NULL)) {
-		if (strcmp(q->next->elem, str) == 0) {
-			tmp = q->next;
-			q->next = q->next->next;
-			free(tmp->elem);
-			free(tmp);
+		return;	
+
+	while (cur->next != NULL) {	
+		if (strcmp(cur->elem, str) == 0) {
+			if (prev == NULL) {
+				*l = cur->next;
+				free(cur->elem);
+				free(cur);
+				cur = *l;
+			}
+			else {
+				prev->next = cur->next;
+				free(cur->elem);
+				free(cur);
+				cur = prev->next;
+			}
 		}	
-		q = q->next;
+		else {
+			prev = cur;
+			cur = cur->next;
+		}
 	}
-	return 0;
 }	
 
-int FreeList(list l) {
-	if (!l) 
-		return 1;
+void FreeList(list l) {
+	if (l == NULL) 
+		return;
 	node *cur = l, *tmp;
 	while (cur && cur->next) {
 		tmp = cur;		
@@ -84,7 +89,6 @@ int FreeList(list l) {
 	}
 	free(cur->elem);
 	free(cur);
-	return 0;
 }
 
 
