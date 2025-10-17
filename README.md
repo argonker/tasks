@@ -159,4 +159,130 @@ As a result function returns a production of a result and a sign that was saved 
 
 **PROGRAM**  
 Program recieves a string `num`, then uses function `str2double()` to form an answer and prints it
-*** 
+***
+
+## Task 2_5
+
+**INTERFACE**
+string -- word  
+Spacebar, Enter, Tab -- separation  
+Ctrl + D -- EOF 
+
+**FUNCTIONS** 
+`void AppendToList(list *l, char *str)` takes a pointer to a list and puts string at its end  
+
+`void PrintList` takes a pointer to list and prints it  
+
+`void ExcludeFromList` takes a pointer to a list and excludes all the nodes, which elements equal a given string  
+
+`void FreeList` takes a pointer to a list and deletes it  
+
+**PROGRAM**
+A dynamic array `buff` was used to store the string in the node. Also were used 
+functions `strcopy` and `strcmp` from `<string.h>` library.
+***
+
+## Task 2_6
+
+**INTERFACE**
++(unsigned_integer > 0) -- To add a key to the tree  
+-(unsigned_integer > 0) -- To remove a key from the tree  
+?(unsgined_integer > 0) -- To find out, is a key in the tree  
+Spacebar, Tab, Enter -- Separation  
+Ctrl + D -- EOF  
+
+**FUNCTIONS**
+`void AddToTree(tnode *tree, int elem)` takes a pointer to a tree and puts new leaf with `elem` at the right place in it
+
+`void DeleteFromTree(tnode *tree, int elem)` takes a pointer to a tree and removes a leaf with `elem`, saving connections
+
+`void SearchInTree(tnode *tree, int elem)` takes a pointer to a tree and searches a leaf with `elem`.  
+If tree contains leaf with `elem`, prints "yes", else prints "no" and `elem`
+
+`void FreeTree(tnode **tree)` takes a pointer to a tree and deletes it
+
+**PROGRAM**
+This program scans a string from stdin and executes a proper function, choice is based on a char variable `c`
+***
+
+## Task 2_7
+
+**INTERFACE** 
+(unsigned_integer from [0,9]) (+, -, * , /, ^) -- expression
+
+**FUNCTIONS**
+`void getlex(void` )extracts the next token from the input stream 
+
+`int expr(void)` recognizes the expression and calculates its value 
+
+`int add(void)` recognizes the summand and calculates its value 
+
+`int power(void)` recognizes exponentiation and calculates its value 
+
+`int num(void)` recognizes a digit or a parenthesis 
+
+`int mult(void)` recognizes a multiplier and calculates its value
+
+`void error(void)` reports an error in the expression and passes control to the beginning of the main function (the begin point)
+
+**PROGRAM**
+The program is based on recurrent descent. Each function forms a part of the response,   
+which is printed on the screen at the end of the work.
+Function `void expr(void)` was modified to be able to substract numbers:
+
+```
+int e = add();
+	while ((curlex == '+') || (curlex == '-'))
+    {
+        if (curlex == '-')
+        {
+            getlex();
+            e -= add();
+        }
+
+        if (curlex == '+')
+        {
+            getlex();
+            e += add();
+        }
+    }
+```
+
+Function `void add(void)` was modified to be able to divide numbers:
+
+```
+int b, a = mult();
+	while ((curlex == '/') || (curlex == '*'))
+    {
+        if (curlex == '/')
+        {
+            getlex();
+            b = mult();
+            if (b == 0)
+                error();
+            else
+                a /= b;
+        }
+        if (curlex == '*')
+        {
+            getlex();
+            a *= mult();
+        }
+    }
+```
+
+Function `void power(void)` was added to make possible an exponentation:
+
+```
+int i, p = num();
+    while (curlex == '^')
+    {
+        getlex();
+        int res = 1;
+        int lim = power();
+        for (i = 0; i < lim; i++)
+            res *= p;
+        p = res;
+    }
+```
+***
