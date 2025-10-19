@@ -40,9 +40,11 @@ void PrintList(list l) {
 	}
 
 	tmp = l;
-	printf("[ ");
+	printf("[");
 	while (tmp != NULL) {
-		printf("%s ", tmp->elem);
+		printf("%s", tmp->elem);
+		if (tmp->next != NULL)
+			printf(", ");
 		tmp = tmp->next;
 	}
 	printf("]\n");
@@ -108,10 +110,12 @@ int main() {
 			}
 			c = getchar();
 		}
-		buff[i++] = '\0';
-		char str[i];
-		strcpy(str, buff);
-		AppendToList(&wordlist, str);
+		if (i != 0) {
+			buff[i++] = '\0';
+			char str[i];
+			strcpy(str, buff);
+			AppendToList(&wordlist, str);
+		}
 	}
 	ExcludeFromList(&wordlist, buff);
 	PrintList(wordlist);
