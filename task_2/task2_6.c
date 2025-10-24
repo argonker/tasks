@@ -97,7 +97,7 @@ void FreeTree(tnode **tree) {
 		return;
 	
 	FreeTree(&((*tree)->left));
-	FreeTree(&((*tree)->left));
+	FreeTree(&((*tree)->right));
 	free(*tree);
 	*tree = NULL;
 }

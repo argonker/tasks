@@ -26,10 +26,13 @@ int main() {
 		 	p = p*10 + (str[i] - '0');
 			i += 1;
 		}
-		if (j == 0.1)
-			cnt_dig = (p >= cnt_dig)? p+1+after_point: cnt_dig;
+		if (p != after_point)
+			if (j == 0.1) 
+				cnt_dig = (p >= cnt_dig)? p+1+after_point: cnt_dig; 
+			else
+				cnt_dig += p - after_point;
 		else
-			cnt_dig += p - after_point;
+			cnt_dig = cnt_dig - after_point;
 		return x * power(j, p);
 	}
 	
