@@ -40,9 +40,11 @@ void PrintList(list l) {
 	}
 
 	tmp = l;
-	printf("[ ");
+	printf("[");
 	while (tmp != NULL) {
-		printf("%s ", tmp->elem);
+		printf("%s", tmp->elem);
+		if (tmp->next != NULL)
+			printf(", ");
 		tmp = tmp->next;
 	}
 	printf("]\n");
@@ -75,6 +77,34 @@ void ExcludeFromList(list *l, char *str) {
 			cur = cur->next;
 		}
 	}
+}
+
+void ReverseString(char *str) {
+	char temp;
+	int i, n = strlen(str) - 1;
+	
+	for (i = 0; i <= n/2; i++) {
+		temp = str[i];
+		str[i] = str[n-i];
+		str[n-i] = temp;
+	}
+}
+
+
+void ReverseList(list *l) {
+	node *next = NULL;
+	node *cur = *l;
+	node *prev = NULL;
+
+	while (cur != NULL) {	
+		ReverseString(cur->elem);
+
+		next = cur->next;
+		cur->next = prev;
+		prev = cur;
+		cur = next;
+	}
+	*l = prev;
 }	
 
 void FreeList(list l) {
@@ -108,12 +138,16 @@ int main() {
 			}
 			c = getchar();
 		}
-		buff[i++] = '\0';
-		char str[i];
-		strcpy(str, buff);
-		AppendToList(&wordlist, str);
+		if (i != 0) {
+			buff[i++] = '\0';
+			char str[i];
+			strcpy(str, buff);
+			AppendToList(&wordlist, str);
+		}
 	}
 	ExcludeFromList(&wordlist, buff);
+	PrintList(wordlist);
+	ReverseList(&wordlist);
 	PrintList(wordlist);
 	FreeList(wordlist);
 	free(buff);
