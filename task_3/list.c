@@ -122,7 +122,7 @@ void printlist() {
 void read_block() {
     if (is_eof) return;
     
-    if (fscanf(stdin, "%15s", str) == 1) {
+    if (fscanf(stdin, "%63s", str) == 1) {
 		str_len = strlen(str);
     	str_pos = 0;
 	} else {
