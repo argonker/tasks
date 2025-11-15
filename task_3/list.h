@@ -1,4 +1,4 @@
-#define SIZE 16
+#define SIZE 32
 #define BUFFER_SIZE 64
 
 typedef enum {Start, Word, Special_1, Special_2, Newline, Stop} vertex;
