@@ -126,15 +126,4 @@ newline - skips whitespace characters, tabs, and newlines
 
 ## MAIN.C   
    
-The file in which the functions of the L-graph are controlled using the `case` operator. The key thing in this file is the control logic, or rather the condition for finishing processing the file:   
-
-```
-while (!end_of_read && v != Stop) {
-        if (v != Special_1) {
-            c = getsym();
-            if (c == EOF)
-                end_of_read = 1;
-        }
-```
-where `end_of_line` determines whether a line has ended (that is, whether `'\n'` has been caught)    
-and whether `EOF` has been encountered.
+The file in which the functions of the L-graph are controlled using the `case` operator. The key thing in this file is the control logic, or rather the condition for finishing processing the file.  
