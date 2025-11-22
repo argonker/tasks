@@ -122,7 +122,7 @@ void special() {
     }
 }
 ```
-newline - skips whitespace characters, tabs, and newlines   
+newline - handles encountered whitespace sequences 
 
 ## MAIN.C   
    
