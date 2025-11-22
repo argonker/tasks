@@ -23,7 +23,7 @@ void read_block();
 And a new type and functions for working with an L-graph:  
 
 ```
-typedef enum {Start, Word, Special_1, Newline, Stop} vertex;  
+typedef enum {Start, Word, Special, Newline, Stop} vertex;  
 
 
 void start();
