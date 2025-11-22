@@ -1,7 +1,7 @@
 #define SIZE 32
 #define BUFFER_SIZE 64
 
-typedef enum {Start, Word, Special_1, Special_2, Newline, Stop} vertex;
+typedef enum {Start, Word, Special, Newline, Stop} vertex;
 
 extern char ** lst;
 extern char * buf;
@@ -30,5 +30,4 @@ void read_block();
 void start();
 void word();
 void special();
-void special2();
 void newline();

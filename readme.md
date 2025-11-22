@@ -4,7 +4,8 @@
 your input -- special symbols ( `&, &&, >, >>, <, |, ||, ;, (, )` ), digits, letters,   
 space symbols ( `'\n', '\t', ' '` ), symbols ( `$, '_', '/', '.'` )  
 
-**LIST.H**  
+## LIST.H     
+
 A file with a description of all necessary variables and function prototypes for working with a list of words:  
 
 ```
@@ -22,18 +23,18 @@ void read_block();
 And a new type and functions for working with an L-graph:  
 
 ```
-typedef enum {Start, Word, Special_1, Special_2, Newline, Stop} vertex;  
+typedef enum {Start, Word, Special_1, Newline, Stop} vertex;  
 
 
 void start();
 void word();
 void special();
-void special2();
 void newline();
 
 ```
    
-**LIST.C**
+## LIST.C    
+
 The most important file, which describes all the functions necessary for the program to work.
 
 functions:  
@@ -93,31 +94,38 @@ void word() {
     }
 }
 ```
-special - A function that is a stage of special character processing, necessary for the correct processing of two-character elements   
-special2  
- 
+special - a function that analyzes the received special character. It checks whether it is single or double
+
 ```
-void special2() {
-    if (is_special_char(c))
-        if ((buf[0] == '&' && c == '&') || (buf[0] == '>' && c == '>') || (buf[0] == '|' && c == '|')) {
+void special() {
+    if (c == EOF) {
+        addword();
+        v = Stop;
+        return;
+    }
+
+    if ((buf[0] == '&' && c == '&') || (buf[0] == '>' && c == '>') || (buf[0] == '|' && c == '|')) {
+        addsym();
+        addword();
+        v = Start;
+    } else {
+        addword();
+
+        if (is_special_char(c)) {
+            nullbuf();
             addsym();
-            addword();
-            v = Start;
+            v = Special;
         } else {
-            addword();
             v = Start;
             start();
         }
-    else {
-        addword();
-        v = Start;
-        start();
     }
 }
 ```
 newline - skips whitespace characters, tabs, and newlines   
 
-**MAIN.C**   
+## MAIN.C   
+   
 The file in which the functions of the L-graph are controlled using the `case` operator. The key thing in this file is the control logic, or rather the condition for finishing processing the file:   
 
 ```

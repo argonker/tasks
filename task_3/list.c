@@ -122,7 +122,7 @@ void printlist() {
 void read_block() {
     if (is_eof) return;
     
-    if (fscanf(stdin, "%63s", str) == 1) {
+    if (fgets(str, BUFFER_SIZE, stdin) != NULL) {
 		str_len = strlen(str);
     	str_pos = 0;
 	} else {
@@ -139,7 +139,7 @@ int getsym() {
 			return EOF;
     }
     
-    return (unsigned char)str[str_pos++];
+    return (char)str[str_pos++];
 }
 
 int is_letter(int ch) {
@@ -151,8 +151,7 @@ int is_digit(int ch) {
 }
 
 int is_word_char(int ch) {
-    return is_letter(ch) || is_digit(ch) || 
-           ch == '$' || ch == '.' || ch == '/' || ch == '_';
+    return is_letter(ch) || is_digit(ch) || ch == '$' || ch == '.' || ch == '/' || ch == '_';
 }
 
 int is_special_char(int ch) {
@@ -165,16 +164,14 @@ int is_space_char(int ch) {
 
 void start() {
     if (c == EOF) {
-        termlist();
-        printlist();
-        clearlist();
+		addword(); 
         v = Stop;
     } else if (is_space_char(c)) 
-        v = Newline;
+        v = Start;
     else if (is_special_char(c)) {
         nullbuf();
         addsym();
-        v = Special_1;
+        v = Special;
     } else {
         nullbuf();
         addsym();
@@ -190,7 +187,7 @@ void word() {
         addword();
         nullbuf();
         addsym();
-        v = Special_1;
+        v = Special;
     } else {
         addsym();
         v = Word;
@@ -198,38 +195,42 @@ void word() {
 }
 
 void special() {
-	v = Special_2;
-}
+	if (c == EOF) {
+		addword();
+		v = Stop;
+		return;
+	} 
+	
+	if ((buf[0] == '&' && c == '&') || (buf[0] == '>' && c == '>') || (buf[0] == '|' && c == '|')) {
+        addsym(); 
+       	addword();
+       	v = Start;
+	} else {
+		addword();
 
-void special2() {
-	if (is_special_char(c)) 
-		if ((buf[0] == '&' && c == '&') || (buf[0] == '>' && c == '>') || (buf[0] == '|' && c == '|')) {
+		if (is_special_char(c)) {
+			nullbuf();
 			addsym();
-			addword();
-			v = Start;
+			v = Special;
 		} else {
-			addword();
 			v = Start;
 			start();
 		}
-	else {
-		addword();
-		v = Start;
-		start();
 	}
 }
 
 void newline() {
-    if (c == EOF) {
-        termlist();
-        printlist();
-        clearlist();
+    if (c == EOF) 
         v = Stop;
-    } else if (is_space_char(c)) {
-        v = Newline;
+    else if (is_space_char(c)) {
+		if (buf == NULL)
+			v = Start;
+		else { 
+			addword();
+        	v = Start;
+		}
     } else {
         v = Start;
-        start();
     }
 }
 
