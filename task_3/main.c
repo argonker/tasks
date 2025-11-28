@@ -41,6 +41,10 @@ int main() {
 		sortlist();
 		printf("Sorted list:\n");
 		printlist();
+		printf("\n");
+		double_list();
+		printf("Doubled list:\n");
+		printlist();
 	}
 	clearlist();
 }

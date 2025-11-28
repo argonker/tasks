@@ -249,3 +249,39 @@ void sortlist() {
             }
     }
 }
+
+void double_list() {
+	int i, cnt;
+	char *word;
+	
+	if (lst == NULL) 
+		return;
+
+	cnt = 0;
+	for (i = 0; i < curlist; i += 2) 
+		if (i % 2 == 0)
+			cnt++; 
+	
+	char **doubled_list = malloc((curlist + cnt) * sizeof(char*));
+	int double_idx = 0;
+		
+	for (i = 0; i < curlist; i++) {
+		doubled_list[double_idx++] = lst[i];
+		if (i % 2 == 0) {
+			int double_len = strlen(lst[i]);
+			word = malloc((double_len) * sizeof(char*));
+			if (word != NULL) {
+				strcpy(word, lst[i]);
+				doubled_list[double_idx++] = word;
+			}
+		}
+	}
+	free(lst);
+	lst = doubled_list;
+	curlist = double_idx;
+	sizelist = double_idx;
+}
+	
+	
+		 
+

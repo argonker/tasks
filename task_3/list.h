@@ -26,6 +26,7 @@ void addword();
 void addsym();
 void sortlist();
 void read_block();
+void double_list();
 
 void start();
 void word();
