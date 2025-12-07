@@ -1,15 +1,8 @@
 # Task 4
 
-A set of basic Unix-like command line utilities implemented in C.
-
 ## Overview
 
-This project provides implementations of five fundamental command line tools:
-- `echo` - display text with formatting options
-- `cat` - concatenate and display files with line numbering
-- `mv` - move or rename files and directories
-- `cp` - copy file contents
-- `cmp` - compare two files byte by byte
+This project provides implementations of five fundamental command line tools with clean, efficient C code. Each utility demonstrates practical file I/O operations and command-line argument parsing.
 
 ## Utilities
 
@@ -20,33 +13,55 @@ This project provides implementations of five fundamental command line tools:
 - `-n` - do not output trailing newline
 - `-s` - do not separate arguments with spaces
 
+**Interesting detail:** Uses a clever boolean condition in printf: `printf((No_Separations)?"%s":"%s ", argv[i])` to toggle space insertion without extra branching.
+
 ### 2. cat
 **File:** `cat.c`  
 **Description:** Concatenates and displays file contents.  
 **Flags:**
 - `-n` - number all output lines
 
+**Interesting details:**
+- Line numbers are right-aligned to 6 spaces: `printf("%6d  ", line_num)`
+- Uses low-level file descriptors (`open()`, `read()`) instead of `FILE*` streams
+- Tracks newline state with a simple boolean flag: `newline = (chr == '\n')`
+
 ### 3. mv
 **File:** `mv.c`  
 **Description:** Moves or renames files and directories.  
 **Features:**
-- Supports moving multiple files to a directory
-- Checks file existence
-- Handles move errors appropriately
+- Smart directory detection using `stat()` and `S_ISDIR()`
+- Automatic basename extraction: `strrchr(argv[i], '/')`
+- Batch file moving support
 
-### 4. cp
-**File:** `cp.c`  
-**Description:** Copies content from source to destination file.  
+**Interesting details:**
+- Checks for self-move: `if (!strcmp(argv[1], argv[2]))`
+- Uses `rename()` system call for atomic file operations
+- Handles both single file rename and multiple file moves to directory
+
+### 4. pwd
+**File:** `pwd.c`  
+**Description:** Prints the current/working directory.  
 **Features:**
-- Verifies source file existence
-- Creates destination file if needed
-- Provides copy confirmation
+- Simple one-liner implementation
+- Memory-safe with proper allocation and freeing
+- Cross-platform compatible
+
+**Interesting details:**
+- Uses `getcwd(NULL, 0)` for automatic buffer allocation
+- Always includes trailing newline for clean output
+- Proper memory management: `free(cwd)` after use
 
 ### 5. cmp
 **File:** `cmp.c`  
 **Description:** Compares two files byte by byte.  
 **Features:**
 - Shows first differing position (byte and line)
-- Detects which file is shorter
-- Returns appropriate exit codes
+- Detects EOF differences
+- Tracks both byte and line positions
+
+**Interesting details:**
+- Single-byte reads for precise comparison: `read(fd1, &byte1, 1)`
+- Dual file descriptor handling with proper cleanup
+- Line tracking resets on `'\n'`: `if (byte1 == '\n') { line++; byte = 1; }`
 
