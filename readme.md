@@ -26,7 +26,28 @@ This project provides implementations of five fundamental command line tools wit
 - Uses low-level file descriptors (`open()`, `read()`) instead of `FILE*` streams
 - Tracks newline state with a simple boolean flag: `newline = (chr == '\n')`
 
-### 3. mv
+### 3. myls
+**File:** `ls.c`  
+**Description:** Lists directory contents with various display options.  
+**Flags:**
+- `-l` - use a long listing format
+- `-R` - list subdirectories recursively
+- `-g` - like -l, but do not list owner
+
+**Features:**
+- Intelligent argument handling (files vs directories)
+- Recursive directory traversal with proper header formatting
+- Permission and file type display
+- Special device file support (major/minor numbers)
+- Hidden file filtering (skips files starting with '.')
+
+**Technical highlights:**
+- Dual-pass directory reading for recursive mode (read for display, then read for recursion)
+- Proper use of `lstat()` vs `stat()` for symbolic link handling
+- Structured error reporting with perror for system call failures
+- Memory-efficient path construction using fixed-size buffers
+
+### 4. mv
 **File:** `mv.c`  
 **Description:** Moves or renames files and directories.  
 **Features:**
@@ -39,7 +60,7 @@ This project provides implementations of five fundamental command line tools wit
 - Uses `rename()` system call for atomic file operations
 - Handles both single file rename and multiple file moves to directory
 
-### 4. pwd
+### 5. pwd
 **File:** `pwd.c`  
 **Description:** Prints the current/working directory.  
 **Features:**
@@ -52,7 +73,7 @@ This project provides implementations of five fundamental command line tools wit
 - Always includes trailing newline for clean output
 - Proper memory management: `free(cwd)` after use
 
-### 5. cmp
+### 6. cmp
 **File:** `cmp.c`  
 **Description:** Compares two files byte by byte.  
 **Features:**
