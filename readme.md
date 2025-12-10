@@ -26,7 +26,7 @@ This project provides implementations of five fundamental command line tools wit
 - Uses low-level file descriptors (`open()`, `read()`) instead of `FILE*` streams
 - Tracks newline state with a simple boolean flag: `newline = (chr == '\n')`
 
-### 3. myls
+### 3. ls
 **File:** `ls.c`  
 **Description:** Lists directory contents with various display options.  
 **Flags:**
