@@ -16,7 +16,6 @@ This project implements a minimal Unix-like shell in C with support for basic sh
 **Interesting details:**
 - Simple prompt: `$ ` without complex PS1 customization
 - Handles both interactive mode and command-line arguments
-- Basic SIGINT (Ctrl+C) handling that just prints newline
 - Clean resource management after each command cycle
 
 ### 2. Lexem Analyzer
@@ -52,7 +51,6 @@ This project implements a minimal Unix-like shell in C with support for basic sh
 **Interesting details:**
 - Recursive descent parser with lookahead
 - Error recovery with `err_flag` tracking
-- Automatic command tree visualization via `show_cmd_tree()`
 - Background flag propagation through AST nodes
 
 ### 4. Executor
