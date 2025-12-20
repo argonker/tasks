@@ -1,88 +1,80 @@
-# Task 4
+# Task 5
 
 ## Overview
 
-This project provides implementations of five fundamental command line tools with clean, efficient C code. Each utility demonstrates practical file I/O operations and command-line argument parsing.
+This project implements a minimal Unix-like shell in C with support for basic shell features. The shell follows the traditional read-eval-print loop (REPL) architecture with clear separation between tokenization, parsing, and execution phases.
 
-## Utilities
+## Components
 
-### 1. echo
-**File:** `echo.c`  
-**Description:** Prints command line arguments with formatting control.  
-**Flags:**
-- `-n` - do not output trailing newline
-- `-s` - do not separate arguments with spaces
-
-**Interesting detail:** Uses a clever boolean condition in printf: `printf((No_Separations)?"%s":"%s ", argv[i])` to toggle space insertion without extra branching.
-
-### 2. cat
-**File:** `cat.c`  
-**Description:** Concatenates and displays file contents.  
-**Flags:**
-- `-n` - number all output lines
+### 1. Main Driver
+**File:** `main.c`  
+**Purpose:** Manages the shell's main loop and user interaction.  
+**Key Functions:**
+- `read_line()` - Reads user input with support for Ctrl+D
+- `main()` - Initializes shell and runs the REPL cycle
 
 **Interesting details:**
-- Line numbers are right-aligned to 6 spaces: `printf("%6d  ", line_num)`
-- Uses low-level file descriptors (`open()`, `read()`) instead of `FILE*` streams
-- Tracks newline state with a simple boolean flag: `newline = (chr == '\n')`
+- Simple prompt: `$ ` without complex PS1 customization
+- Handles both interactive mode and command-line arguments
+- Basic SIGINT (Ctrl+C) handling that just prints newline
+- Clean resource management after each command cycle
 
-### 3. ls
-**File:** `ls.c`  
-**Description:** Lists directory contents with various display options.  
-**Flags:**
-- `-l` - use a long listing format
-- `-R` - list subdirectories recursively
-- `-g` - like -l, but do not list owner
+### 2. Lexem Analyzer
+**Files:** `lexer.h`, `lexer.c`  
+**Purpose:** Splits input strings into tokens with quote and escape handling.  
+**Key Functions:**
+- `split_to_list()` - Converts string to token array
+- `sub_env_vars()` - Expands environment variables
+- `process_word()` - Internal helper for quote processing
 
 **Features:**
-- Intelligent argument handling (files vs directories)
-- Recursive directory traversal with proper header formatting
-- Permission and file type display
-- Special device file support (major/minor numbers)
-- Hidden file filtering (skips files starting with '.')
+- **Quote handling**: Single (`'`) and double (`"`) quotes with proper nesting
+- **Escape sequences**: Backslash (`\`) escapes next character
+- **Variable expansion**: `$HOME`, `$USER`, `$SHELL` support
+- **Special characters**: Recognizes `|`, `&`, `;`, `<`, `>`, `(`, `)`
+- **Comments**: Lines starting with `#` are ignored
 
 **Technical highlights:**
-- Dual-pass directory reading for recursive mode (read for display, then read for recursion)
-- Proper use of `lstat()` vs `stat()` for symbolic link handling
-- Structured error reporting with perror for system call failures
-- Memory-efficient path construction using fixed-size buffers
+- Dynamic token array that grows as needed
+- Proper memory management with `strdup()` and `free()`
+- State machine for parsing quotes and escape sequences
+- Separate variable lookup table for built-in variables
 
-### 4. mv
-**File:** `mv.c`  
-**Description:** Moves or renames files and directories.  
-**Features:**
-- Smart directory detection using `stat()` and `S_ISDIR()`
-- Automatic basename extraction: `strrchr(argv[i], '/')`
-- Batch file moving support
-
-**Interesting details:**
-- Checks for self-move: `if (!strcmp(argv[1], argv[2]))`
-- Uses `rename()` system call for atomic file operations
-- Handles both single file rename and multiple file moves to directory
-
-### 5. pwd
-**File:** `pwd.c`  
-**Description:** Prints the current/working directory.  
-**Features:**
-- Simple one-liner implementation
-- Memory-safe with proper allocation and freeing
-- Cross-platform compatible
+### 3. Parser
+**Files:** `tree.h`, `tree.c`  
+**Purpose:** Builds an Abstract Syntax Tree (AST) from tokens.  
+**Key Functions:**
+- `split_tokens()` - Main parsing entry point
+- `parse_pipe()` - Handles `|` operator (left-associative)
+- `parse_list()` - Handles `;` sequences
+- `parse_redir()` - Processes `<`, `>`, `>>` operators
 
 **Interesting details:**
-- Uses `getcwd(NULL, 0)` for automatic buffer allocation
-- Always includes trailing newline for clean output
-- Proper memory management: `free(cwd)` after use
+- Recursive descent parser with lookahead
+- Error recovery with `err_flag` tracking
+- Automatic command tree visualization via `show_cmd_tree()`
+- Background flag propagation through AST nodes
 
-### 6. cmp
-**File:** `cmp.c`  
-**Description:** Compares two files byte by byte.  
+### 4. Executor
+**Files:** `executor.h`, `executor.c`  
+**Purpose:** Executes the parsed command tree.  
+**Key Functions:**
+- `run_cmd()` - Dispatches based on command type
+- `run_simple()` - Executes simple commands
+- `run_pipe_recursive()` - Handles pipe execution
+- Built-in commands: `run_cd()`, `run_pwd()`, `run_exit()`
+
 **Features:**
-- Shows first differing position (byte and line)
-- Detects EOF differences
-- Tracks both byte and line positions
+- **Built-in commands**: `cd`, `pwd`, `exit` handled internally
+- **External commands**: Uses `fork()` + `execvp()` for external programs
+- **Pipes**: Creates pipes between processes with proper fd management
+- **Redirection**: Input/output redirection via `dup2()`
+- **Background jobs**: Fork without waiting, prints PID
 
-**Interesting details:**
-- Single-byte reads for precise comparison: `read(fd1, &byte1, 1)`
-- Dual file descriptor handling with proper cleanup
-- Line tracking resets on `'\n'`: `if (byte1 == '\n') { line++; byte = 1; }`
+**Technical highlights:**
+- Recursive pipe execution matches AST structure
+- Proper file descriptor cleanup in all execution paths
+- Background process tracking (prints "[PID] started")
+- Environment variable inheritance through `execvp()`
+- Error reporting for "command not found" cases
 
