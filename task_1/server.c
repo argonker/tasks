@@ -15,7 +15,6 @@
 #define CMD_LEN 2
 
 void sig_handler(int s) {
-    (void)s; 
     int saved_errno = errno;
     
     while (waitpid(-1, NULL, WNOHANG) > 0);
