@@ -11,7 +11,6 @@
 #define MAX_BUF 1024
 
 void sigint_handler(int sig) {
-    (void)sig;
     printf("\nReceived SIGINT. Exiting...\n");
     exit(0);
 }
