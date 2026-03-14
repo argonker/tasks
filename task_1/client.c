@@ -49,14 +49,10 @@ int main(int argc, char *argv[]) {
     server_addr.sin_port = htons(port);
     
     if (inet_pton(AF_INET, host, &server_addr.sin_addr) <= 0) {
-        struct hostent *he = gethostbyname(host);
-        if (he == NULL) {
             fprintf(stderr, "Unknown host: %s\n", host);
             close(sock_fd);
             exit(1);
         }
-        memcpy(&server_addr.sin_addr, he->h_addr_list[0], he->h_length);
-    }
     
     if (connect(sock_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         perror("connect");
