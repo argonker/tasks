@@ -1,46 +1,50 @@
-# Task 7 (1)  
+# Task 7(1) (Calculator 1)
 
+A simple TCP-based calculator application written in C. The server supports multiple concurrent clients using `fork()`, and each client session maintains its own independent increment value.
 
-## Option 1 - Calculator  
+## Overview
 
-A TCP client-server application implementing a calculator with a configurable increment. The server supports multiple client connections using the `fork()` mechanism.
+- **Protocol:** TCP/IP (IPv4)
+- **Concurrency:** Multi-process (one child process per client)
+- **Default Port:** `8888`
+- **Key Feature:** Full signal handling (`SIGINT`, `SIGTSTP`, `SIGCONT`, `SIGCHLD`) for graceful shutdown and process control.
 
-## Key Features
+### Supported Commands
+| Command | Description |
+|---------|-------------|
+| `\+ <num>` | Set the increment value |
+| `<num>` | Add the current increment to the number |
+| `\?` | Show current increment value |
+| `\-` | Close connection and exit |
 
-- **Concurrency**: Handles multiple clients simultaneously via `fork()`
-- **Signal Handling**: 
-  - `SIGCHLD` – prevents zombie processes
-  - `SIGPIPE` – ignored to prevent crashes when writing to closed sockets
-  - `SIGINT` – graceful client shutdown
-- **Commands**:
-  - `\+ <number>` – set the increment value
-  - `<number>` – add the current increment to the number
-  - `\?` – query the current increment value
-  - `\-` – close the connection
+---
 
+## File Breakdown
 
-## Technologies
+### `server.c`
+Handles incoming connections and business logic.
 
-- **Networking**: Sockets (TCP/IP)
-- **System Calls**: `fork()`, `waitpid()`, `signal()`
-- **Standard Libraries**: `stdio.h`, `stdlib.h`, `string.h`, `unistd.h`, `signal.h`, `sys/socket.h`, `netinet/in.h`, `arpa/inet.h`, `sys/wait.h`
+- **`sig_chld_handler`**: Reaps zombie processes using `waitpid(..., WNOHANG)` when a client disconnects.
+- **`sig_term_handler`**: Catches `SIGINT`/`SIGTERM` to close the server socket gracefully.
+- **`sig_tstp_handler` / `sig_cont_handler`**: Allows suspending (`Ctrl+Z`) and resuming (`fg`) the server process.
+- **`client_func`**: Runs in a child process. Maintains the local `inc` state for that specific client and processes commands.
+- **`main`**: Initializes the socket, binds to port, and runs the `accept()` → `fork()` loop.
 
-**External Dependencies**: None (uses only standard C library and POSIX system calls)  
+### `client.c`
+Interactive command-line interface for the user.
 
-## Usage & Commands
+- **`sig_int_handler`**: Catches `SIGINT` (`Ctrl+C`) to close the socket before exiting.
+- **`sig_tstp_handler` / `sig_cont_handler`**: Allows suspending and resuming the client process.
+- **`main`**: 
+  - Parses host/port arguments.
+  - Establishes TCP connection.
+  - Runs an interactive loop: reads stdin → sends to server → prints response.
 
-### Connecting to the Server
+---
 
-```bash
+## Running  
 
-./client <host> <port>
+Server: ./server
+Client: ./client <address> <port>  
 
-```
-## Commands
-
-| Command | Syntax | Description |
-|---------|--------|-------------|
-| Add to increment | `<number>` | Adds current increment to the number |
-| Set increment | `\+ <number>` | Changes the increment value |
-| Get increment | `\?` | Shows current increment value |
-| Exit | `\-` | Closes connection |
+---
