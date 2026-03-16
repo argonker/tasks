@@ -17,11 +17,8 @@
 int server_fd;
 
 void sig_chld_handler(int s) {
-    int saved_errno = errno;
-    
     while (waitpid(-1, NULL, WNOHANG) > 0);
     
-    errno = saved_errno;
 }
 
 void sig_term_handler(int s) {
