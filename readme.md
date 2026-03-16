@@ -45,6 +45,6 @@ Interactive command-line interface for the user.
 ## Running  
 
 Server: ./server
-Client: ./client <address> <port>  
+Client: ./client <host> <port>  
 
 ---
