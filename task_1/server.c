@@ -14,12 +14,36 @@
 #define PORT 8888
 #define CMD_LEN 2
 
-void sig_handler(int s) {
+int server_fd;
+
+void sig_chld_handler(int s) {
     int saved_errno = errno;
     
     while (waitpid(-1, NULL, WNOHANG) > 0);
     
     errno = saved_errno;
+}
+
+void sig_term_handler(int s) {
+
+    printf("\n### Server is shutting down, thanks to everyone\n");
+    
+    if (server_fd > 0) {
+        close(server_fd);
+    }
+    
+    exit(0);
+}
+
+void sig_tstp_handler(int s) {
+
+    printf("\n*** Server suspended. Use 'fg' to resume.\n");
+    raise(SIGSTOP);
+}
+
+void sig_cont_handler(int s) {
+
+    printf("\n*** Server resumed.\n");
 }
 
 void client_func(int client_fd) {
@@ -93,14 +117,16 @@ void client_func(int client_fd) {
 }
 
 int main(int argc, char *argv[]) {
-    int server_fd, client_fd;
+    int client_fd;
     struct sockaddr_in server_addr, client_addr;
     socklen_t client_len;
     
-    
-    signal(SIGCHLD, sig_handler);
-    
+    signal(SIGCHLD, sig_chld_handler);
     signal(SIGPIPE, SIG_IGN);
+	signal(SIGINT,sig_term_handler);
+	signal(SIGTERM, sig_term_handler);
+	signal(SIGTSTP, sig_tstp_handler);
+	signal(SIGCONT, sig_cont_handler);
     
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd < 0) {
@@ -132,8 +158,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
     
-    printf("Server started. Port: %d\nWaiting for connections...\n", PORT);
-    printf("Commands: \\+ <num> (set inc), <num> (add inc), \\? (get inc), \\- (exit)\n");
+    printf("### Server started. Port: %d\n### Waiting for connections...\n", PORT);
     
     while (1) {
         client_len = sizeof(client_addr);
@@ -148,7 +173,7 @@ int main(int argc, char *argv[]) {
         
         char client_ip[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, INET_ADDRSTRLEN);
-        printf("New connection established. Address: %s:%d\n", 
+        printf("### New connection established. Address: %s:%d\n", 
                client_ip, ntohs(client_addr.sin_port));
         
         pid_t pid = fork();

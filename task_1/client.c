@@ -10,13 +10,28 @@
 
 #define MAX_BUF 1024
 
-void sigint_handler(int sig) {
+int sock_fd;
+
+void sig_int_handler(int sig) {
+
     printf("\nReceived SIGINT. Exiting...\n");
+	if (sock_fd > 0)
+		close(sock_fd);
     exit(0);
 }
 
+void sig_tstp_handler(int sig) {
+    
+	printf("\nReceived SIGTSTP\n");
+    raise(SIGSTOP);
+}
+
+void sig_cont_handler(int sig) {
+    
+	printf("\nResumed\n");
+}
+
 int main(int argc, char *argv[]) {
-    int sock_fd;
     struct sockaddr_in server_addr;
     char buf[MAX_BUF], res[MAX_BUF];
     char *host;
@@ -27,7 +42,9 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
     
-    signal(SIGINT, sigint_handler);
+    signal(SIGINT, sig_int_handler);
+	signal(SIGTSTP, sig_tstp_handler);
+	signal(SIGCONT, sig_cont_handler);
     
     host = argv[1];
     port = atoi(argv[2]);
