@@ -37,13 +37,13 @@ void sig_term_handler(int s) {
 
 void sig_tstp_handler(int s) {
 
-    printf("\n*** Server suspended. Use 'fg' to resume.\n");
+    printf("\n### Server suspended. Use 'fg' to resume.\n");
     raise(SIGSTOP);
 }
 
 void sig_cont_handler(int s) {
 
-    printf("\n*** Server resumed.\n");
+    printf("\n### Server resumed.\n");
 }
 
 void client_func(int client_fd) {
@@ -51,8 +51,6 @@ void client_func(int client_fd) {
     int inc = 1; 
     int n;
     char *str;
-    char *fin = "Closing calculator, goodbye!";
-    char *chg = "Increment is changed";
     
     while (1) {
         memset(buf, 0, MAX_BUF);
@@ -81,7 +79,7 @@ void client_func(int client_fd) {
         }
 
         else if (strcmp(str, "\\-") == 0) {
-            write(client_fd, fin, strlen(fin));
+            write(client_fd, "Closing calculator, goodbye!", strlen("Closing calculator, goodbye!"));
             break;
         }
 
@@ -92,9 +90,9 @@ void client_func(int client_fd) {
             
             if (*cmd >= '0' && *cmd <= '9') {
                 inc = atoi(cmd);
-                write(client_fd, chg, strlen(chg));
+                write(client_fd, "Increment was changed", strlen("Increment was changed"));
             } else {
-                write(client_fd, "Invalid number", 14);
+                write(client_fd, "Invalid number", strlen("Invalid number"));
             }
         }
         
@@ -103,7 +101,7 @@ void client_func(int client_fd) {
             long val = strtol(str, &endptr, 10);
             
             if (*endptr != '\0') {
-                write(client_fd, "Invalid command", 15);
+                write(client_fd, "Invalid command", strlen("Invalid command"));
             } else {
                 char res[64];
                 snprintf(res, sizeof(res), "%ld", val + inc);

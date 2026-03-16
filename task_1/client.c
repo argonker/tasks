@@ -14,7 +14,7 @@ int sock_fd;
 
 void sig_int_handler(int sig) {
 
-    printf("\nReceived SIGINT. Exiting...\n");
+    printf("\n### Received SIGINT. Exiting...\n");
 	if (sock_fd > 0)
 		close(sock_fd);
     exit(0);
@@ -22,13 +22,13 @@ void sig_int_handler(int sig) {
 
 void sig_tstp_handler(int sig) {
     
-	printf("\nReceived SIGTSTP\n");
+	printf("\n### Received SIGTSTP\n");
     raise(SIGSTOP);
 }
 
 void sig_cont_handler(int sig) {
     
-	printf("\nResumed\n");
+	printf("\n### Resumed\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
         memset(res, 0, MAX_BUF);
         int n = read(sock_fd, res, MAX_BUF - 1);
         if (n <= 0) {
-            printf("Server closed connection.\n");
+            printf("### Server closed connection.\n");
             break;
         }
         
@@ -111,6 +111,6 @@ int main(int argc, char *argv[]) {
     }
     
     close(sock_fd);
-    printf("Connection closed.\n");
+    printf("### Connection closed.\n");
     return 0;
 }
