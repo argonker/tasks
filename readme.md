@@ -1,4 +1,4 @@
-# Matrix Class Implementation
+# Task 8(2) Matrices 4.2
 
 A C++ implementation of a matrix abstract data type with mathematical operations.
 
