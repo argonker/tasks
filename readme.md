@@ -38,7 +38,7 @@ A C++ implementation of a matrix abstract data type with mathematical operations
 | `Matrix& operator*=(const Matrix& other)` | multiplication with assignment |
 | `Matrix operator*(double scalar) const` | scalar multiplication |
 | `Matrix& operator*=(double scalar)` | scalar multiplication with assignment |
-| `Matrix operator|(const Matrix& other) const` | vertical concatenation (rows) |
+| `Matrix operator \|(const Matrix& other) const` | vertical concatenation (rows) |
 | `Matrix operator/(const Matrix& other) const` | horizontal concatenation (columns) |
 | `bool operator==(const Matrix& other) const` | equality comparison |
 | `bool operator!=(const Matrix& other) const` | inequality comparison |
