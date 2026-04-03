@@ -49,7 +49,7 @@ make clean    # Remove build files
 
 ### Manual Compilation
 ```bash
-g++ -std=c++17 Knight.cpp Mage.cpp Archer.cpp Skeleton.cpp SkeletonKnight.cpp Necromancer.cpp main.cpp -o game
+g++ -std=c++23 Knight.cpp Mage.cpp Archer.cpp Skeleton.cpp SkeletonKnight.cpp Necromancer.cpp main.cpp -o game
 ./game
 ```
 
