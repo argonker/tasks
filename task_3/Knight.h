@@ -10,7 +10,7 @@ protected:
 
 public:
     Knight(const std::string& n, int hp, int str, int dmg);
-    int use_ability() const;
-    void attack() const;
+    int count_damage() const;
+    int attack(Character* enemy);
 };
 #endif

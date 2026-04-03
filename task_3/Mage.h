@@ -6,11 +6,14 @@
 class Mage: virtual public Character {
 protected:
     int spell_dmg;
+    int max_mana;
     int mana;
 
 public:
-    Mage(const std::string& n, int hp, int intel, int dmg, int m);
-    int use_ability() const;
-    void attack() const;
+    Mage(const std::string& n, int hp, int intel, int dmg, int max, int m);
+    int count_damage() const;
+    int get_mana() const;
+    void restore_mana();
+    int attack(Character* enemy);
 };
 #endif

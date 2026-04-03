@@ -10,8 +10,8 @@ protected:
 public:
     Skeleton(const std::string& n,  int hp, int bones_age);
     ~Skeleton();
-    int use_ability() const;
-    void attack() const;
+    int count_damage() const;
+    int attack(Character* enemy);
 
 };
 #endif

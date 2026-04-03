@@ -3,9 +3,12 @@
 Knight::Knight(const std::string& n, int hp, int str, int dmg):
     Character(n, hp, str, 0, 0), sword_dmg(dmg) {}
 
-int Knight::use_ability() const {
-    return strength*10 + sword_dmg;
+int Knight::count_damage() const {
+    return strength*5 + sword_dmg;
 }
-void Knight::attack() const {
-    std::cout << name << " attacks with the sword and deals " << use_ability() << " damage" << std::endl;
+int Knight::attack(Character* enemy) {
+    int dmg = count_damage();
+    std::cout << name << " attacks with the sword and deals " << dmg << " damage" << std::endl;
+    enemy->take_damage(dmg);
+    return dmg;
 }

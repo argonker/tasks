@@ -17,10 +17,11 @@ public:
         name(n), health(hp), strength(str), agility(agl), intelligence(intel) {}
     virtual ~Character() {}
 
-    virtual int use_ability() const = 0;
+    virtual int count_damage() const = 0;
 
-    virtual void attack() const {
+    virtual int attack(Character* enemy)  {
         std::cout << name << " attacks" << std::endl;
+        return 0;
     }
     virtual void take_damage(int dmg) {
         health -= dmg;
