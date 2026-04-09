@@ -8,6 +8,7 @@
 class SkeletonKnight: public Skeleton, public Knight {
 public:
     SkeletonKnight(const std::string& n, int hp, int str, int dmg, int bones);
+    virtual ~SkeletonKnight() {};
     int count_damage() const;
     int attack(Character* enemy);
 };

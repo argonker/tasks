@@ -4,14 +4,14 @@
 #include "Mage.h"
 #include "SkeletonKnight.h"
 
-class Necromancer : public Mage {
+class Necromancer: public Mage {
 private:
-    SkeletonKnight* skeleton_minion;
-    int dark_power;
+    SkeletonKnight* skeleton_minion = nullptr;
+    int dark_power {};
 
 public:
-    Necromancer(const std::string& n, int hp, int intel, int dmg, int max_mana, int m, int dark);
-    ~Necromancer();
+    Necromancer(const std::string& n, int hp, int intel, int dmg, int max_mana, int mana, int dark);
+    virtual ~Necromancer();
     
     int count_damage() const;
     int attack(Character* enemy);

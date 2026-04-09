@@ -17,6 +17,7 @@ int Necromancer::count_damage() const {
 int Necromancer::attack(Character* enemy) {
     int dmg = count_damage();
     std::cout << name << " casts dark magic and deals " << dmg << " damage" << std::endl;
+    enemy->take_damage(dmg);
     return dmg;
 }
 

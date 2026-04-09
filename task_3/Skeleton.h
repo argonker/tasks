@@ -5,11 +5,11 @@
 
 class Skeleton: virtual public Character {
 protected:
-    int bones_age; // насколько скелет старый модификатор :)
+    int bones_age {};
     
 public:
     Skeleton(const std::string& n,  int hp, int bones_age);
-    ~Skeleton();
+    virtual ~Skeleton() {};
     int count_damage() const;
     int attack(Character* enemy);
 

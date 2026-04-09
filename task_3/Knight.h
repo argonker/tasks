@@ -6,10 +6,11 @@
 
 class Knight: virtual public Character {
 protected:
-    int sword_dmg;
+    int sword_dmg {};
 
 public:
     Knight(const std::string& n, int hp, int str, int dmg);
+    virtual ~Knight() {};
     int count_damage() const;
     int attack(Character* enemy);
 };

@@ -4,10 +4,8 @@
 Skeleton::Skeleton(const std::string& n, int hp, int bones): 
     Character(n, hp, 0, 0, 0), bones_age(bones) {}
 
-Skeleton::~Skeleton() {}
-
 int Skeleton::count_damage() const {
-    return bones_age * 2;
+    return bones_age * 2*1024;
 }
 
 int Skeleton::attack(Character* enemy) {

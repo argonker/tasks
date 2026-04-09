@@ -5,7 +5,7 @@ SkeletonKnight::SkeletonKnight(const std::string& n, int hp, int str, int dmg, i
     Character(n, hp, str, 0, 0), Skeleton(n, hp, bones), Knight(n, hp, str, dmg) {}
 
 int SkeletonKnight::count_damage() const {
-    return Knight::count_damage() / bones_age;
+    return Knight::count_damage()*2 / bones_age;
 }
 
 int SkeletonKnight::attack(Character* enemy) {

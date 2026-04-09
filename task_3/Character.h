@@ -6,11 +6,11 @@
 
 class Character {
 protected:
-    std::string name;
-    int health;
-    int strength;
-    int agility;
-    int intelligence;
+    std::string name {};
+    int health {};
+    int strength {};
+    int agility {};
+    int intelligence {};
 
 public:
     Character(const std::string& n, int hp, int str, int agl, int intel):

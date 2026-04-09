@@ -1,21 +1,31 @@
 #include <iostream>
+#include <stdexcept>
 #include "Character.h"
 #include "Knight.h"
 #include "Mage.h"
 #include "Archer.h"
 #include "Necromancer.h"
+#include "Skeleton.h"
 
 Character* create_hero() {
     std::string name;
     int type;
     
-    std::cout << "\n1. Knight  \n2. Mage  \n3. Archer  \n4. Necromancer" << std::endl;
+    std::cout << "\n1. Knight  \n2. Mage  \n3. Archer  \n4. Necromancer  \n5. Skeleton" << std::endl;
     std::cout << "Choice: ";
     std::cin >> type;
-    std::cin.ignore();
     
+    if (type > 5 | type < 1)
+        throw std::invalid_argument("Wrong number. Correct number 1-5");
+        
+    
+    std::cin.ignore();
+
     std::cout << "Name: ";
     getline(std::cin, name);
+
+    if (name.empty()) 
+        throw std::invalid_argument("Not empty name");
     
     if (type == 1) 
         return new Knight(name, 120, 3, 5);
@@ -25,8 +35,10 @@ Character* create_hero() {
         return new Archer(name, 100, 4, 8, 2);
     if (type == 4) 
         return new Necromancer(name, 70, 6, 2, 10, 10, 5);
+    if (type ==5)
+        return new Skeleton(name, 35, 5);
     
-    return new Knight(name, 120, 3, 5);
+    throw std::invalid_argument("Wrong number. Correct number 1-5");
 }
 
 void show_status(Character* hero) {
@@ -45,10 +57,19 @@ void show_status(Character* hero) {
 
 int main() {
     std::cout << "Battle begins";
-    
-    Character* p1 = create_hero();
-    Character* p2 = create_hero();
-    
+    Character* p1 = nullptr;
+    Character* p2 = nullptr;
+
+    try {
+        p1 = create_hero();
+        p2 = create_hero();
+    }
+    catch (const std::invalid_argument& error) {
+        std::cerr << "\nError: " << error.what() << std::endl;
+        delete p1;
+        delete p2;
+        return 1;
+    }
     Character* cur = p1;
     Character* opp = p2;
     
