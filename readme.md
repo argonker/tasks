@@ -4,7 +4,7 @@ Turn-based battle game demonstrating advanced C++ concepts: abstract classes, pu
 
 ## Features
 
-- **4 Character Classes**: Knight, Mage, Archer, Necromancer
+- **5 Character Classes**: Knight, Mage, Archer, Necromancer, Skeleton
 - **Pure Virtual Functions**: `count_damage()` for damage calculation, `attack()` for combat
 - **Multiple Inheritance**: `SkeletonKnight` inherits from both `Skeleton` and `Knight`
 - **Necromancer Mechanics**: Summon a SkeletonKnight that blocks damage as a shield
