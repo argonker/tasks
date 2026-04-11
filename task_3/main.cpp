@@ -36,7 +36,7 @@ Character* create_hero() {
     if (type == 4) 
         return new Necromancer(name, 70, 6, 2, 10, 10, 5);
     if (type ==5)
-        return new Skeleton(name, 35, 5);
+        return new Skeleton(name, 35, 10);
     
     throw std::invalid_argument("Wrong number. Correct number 1-5");
 }
@@ -54,6 +54,7 @@ void show_status(Character* hero) {
     }
     std::cout << std::endl;
 }
+
 
 int main() {
     std::cout << "Battle begins";
