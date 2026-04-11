@@ -23,12 +23,12 @@ int Necromancer::attack(Character* enemy) {
 
 void Necromancer::take_damage(int dmg) {
     if (skeleton_minion != nullptr && skeleton_minion->get_health() > 0) {
-        std::cout << skeleton_minion->get_name() << " blocks the damage!" << std::endl;
+        std::cout << skeleton_minion->get_name() << " blocks the damage" << std::endl;
         int blocked_dmg = dmg - skeleton_minion->get_health();
         skeleton_minion->take_damage(dmg);
         
         if (skeleton_minion->get_health() <= 0) {
-            std::cout << skeleton_minion->get_name() << " was destroyed!" << std::endl;
+            std::cout << skeleton_minion->get_name() << " was destroyed" << std::endl;
             delete skeleton_minion;
             skeleton_minion = nullptr;
             Character::take_damage(blocked_dmg);
@@ -39,10 +39,15 @@ void Necromancer::take_damage(int dmg) {
 }
 
 void Necromancer::summon_skeleton() {
+    if (mana < 4) {
+        std::cout << "You don't have enough mana" << std::endl;
+        return;
+    }
     if (skeleton_minion != nullptr) {
         std::cout << "Skeleton is already summoned" << std::endl;
         return;
     }
+    mana-=4;
     skeleton_minion = new SkeletonKnight("Skeleton_" + name, 60, 4, 3, 4);
     std::cout << skeleton_minion->get_name() << " summoned" << std::endl;
 }
