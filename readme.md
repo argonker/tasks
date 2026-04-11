@@ -53,7 +53,7 @@ g++ -std=c++23 Knight.cpp Mage.cpp Archer.cpp Skeleton.cpp SkeletonKnight.cpp Ne
 ./game
 ```
 
-## 🎮 Controls
+## Controls
 
 | Option | Description | Available For |
 |--------|-------------|---------------|
