@@ -1,7 +1,7 @@
 #include "Knight.h"
 
 Knight::Knight(const std::string& n, int hp, int str, int dmg):
-    Character(n, hp, str, 0, 0), sword_dmg(dmg) {}
+    Character(n, hp, str, 0, 0, 10), sword_dmg(dmg) {}
 
 int Knight::count_damage() const {
     return strength*5 + sword_dmg;

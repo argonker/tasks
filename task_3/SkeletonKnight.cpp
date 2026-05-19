@@ -2,7 +2,7 @@
 #include "Character.h"
 
 SkeletonKnight::SkeletonKnight(const std::string& n, int hp, int str, int dmg, int bones):
-    Character(n, hp, str, 0, 0), Skeleton(n, hp, bones), Knight(n, hp, str, dmg) {}
+    Character(n, hp, str, 0, 0, 3), Skeleton(n, hp, bones), Knight(n, hp, str, dmg) {}
 
 int SkeletonKnight::count_damage() const {
     return Knight::count_damage()*2 / bones_age;

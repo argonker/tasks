@@ -15,7 +15,7 @@ Character* create_hero() {
     std::cout << "Choice: ";
     std::cin >> type;
     
-    if (type > 5 | type < 1)
+    if (type > 5 || type < 1)
         throw std::invalid_argument("Wrong number. Correct number 1-5");
         
     
@@ -43,6 +43,7 @@ Character* create_hero() {
 
 void show_status(Character* hero) {
     std::cout << hero->get_name() << " | HP: " << hero->get_health();
+	std::cout << " | Defense: " << hero->get_defense();
     
     Mage* m = dynamic_cast<Mage*>(hero);
     if (m) 
@@ -51,6 +52,7 @@ void show_status(Character* hero) {
     Necromancer* n = dynamic_cast<Necromancer*>(hero);
     if (n && n->has_skeleton()) {
         std::cout << " | Skeleton HP: " << n->get_skeleton_health();
+		std::cout << " | Skeleton Defense: " << n->get_skeleton_defense();
     }
     std::cout << std::endl;
 }

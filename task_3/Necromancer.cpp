@@ -2,7 +2,7 @@
 #include "Character.h"
 
 Necromancer::Necromancer(const std::string& n, int hp, int intel, int dmg, int max_mana, int m, int dark)
-    : Character(n, hp, 0, 0, intel), Mage(n, hp, intel, dmg, max_mana, m), skeleton_minion(nullptr), dark_power(dark) {}
+    : Character(n, hp, 0, 0, intel, 1), Mage(n, hp, intel, dmg, max_mana, m), skeleton_minion(nullptr), dark_power(dark) {}
 
 Necromancer::~Necromancer() {
     if (skeleton_minion != nullptr) {
@@ -48,7 +48,8 @@ void Necromancer::summon_skeleton() {
         return;
     }
     mana-=4;
-    skeleton_minion = new SkeletonKnight("Skeleton_" + name, 60, 4, 3, 4);
+    //skeleton_minion = new SkeletonKnight("Skeleton_" + name, 60, 4, 3, 4);
+	skeleton_minion = new SkeletonMage("Skeleton_" + name, 40, 5, 3, 10, 10, 4); 
     std::cout << skeleton_minion->get_name() << " summoned" << std::endl;
 }
 
@@ -65,4 +66,11 @@ int Necromancer::get_skeleton_health() const {
         return skeleton_minion->get_health();
     }
     return 0;
+}
+
+int Necromancer::get_skeleton_defense() const {
+	if (skeleton_minion != nullptr) {
+		return skeleton_minion->get_defense();
+	}
+	return 0;
 }

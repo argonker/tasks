@@ -11,20 +11,19 @@ protected:
     int strength {};
     int agility {};
     int intelligence {};
+	int defense {};
 
 public:
-    Character(const std::string& n, int hp, int str, int agl, int intel):
-        name(n), health(hp), strength(str), agility(agl), intelligence(intel) {}
+    Character(const std::string& n, int hp, int str, int agl, int intel, int def):
+        name(n), health(hp), strength(str), agility(agl), intelligence(intel), defense(def) {}
     virtual ~Character() {}
 
     virtual int count_damage() const = 0;
 
-    virtual int attack(Character* enemy)  {
-        std::cout << name << " attacks" << std::endl;
-        return 0;
-    }
+    virtual int attack(Character* enemy) = 0;
+    
     virtual void take_damage(int dmg) {
-        health -= dmg;
+        health =  (health+defense) - dmg;
         std::cout << name << " takes " << dmg << " damage" << std::endl;
         if (health < 0)
             health = 0;
@@ -38,5 +37,8 @@ public:
     int get_health() const {
         return health;
     }
+	int get_defense() const {
+		return defense;
+	}
 };
 #endif

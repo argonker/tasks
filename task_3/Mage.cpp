@@ -2,7 +2,7 @@
 #include "Character.h"
 
 Mage::Mage(const std::string& n, int hp, int intel, int dmg, int max, int m):
-    Character(n, hp, 0, 0, intel), spell_dmg(dmg), max_mana(max), mana(m) {}
+    Character(n, hp, 0, 0, intel, 5), spell_dmg(dmg), max_mana(max), mana(m) {}
 
 int Mage::count_damage() const {
     return (intelligence + spell_dmg)*mana/10;
@@ -26,5 +26,6 @@ int Mage::attack(Character* enemy)  {
     std::cout << name << " casts spell and deals " << dmg << " damage" << std::endl;
     enemy->take_damage(dmg);
     mana -= 4;
+	defense--;
     return dmg;
 }

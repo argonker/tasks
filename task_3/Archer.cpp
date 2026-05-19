@@ -1,6 +1,6 @@
 #include "Archer.h"
 
-Archer::Archer(const std::string& n, int hp, int agl, int dmg, int acc): Character(n, hp, 0, agl, 0), bow_dmg(dmg), accuracy(acc) {}
+Archer::Archer(const std::string& n, int hp, int agl, int dmg, int acc): Character(n, hp, 0, agl, 0, 7), bow_dmg(dmg), accuracy(acc) {}
 
 int Archer::count_damage() const {
     return (agility * 2 + bow_dmg) * accuracy/2;

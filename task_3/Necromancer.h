@@ -2,11 +2,11 @@
 #define NECROMANCER_H
 
 #include "Mage.h"
-#include "SkeletonKnight.h"
+#include "SkeletonMage.h"
 
 class Necromancer: public Mage {
 private:
-    SkeletonKnight* skeleton_minion = nullptr;
+    SkeletonMage* skeleton_minion = nullptr;
     int dark_power {};
 
 public:
@@ -23,6 +23,7 @@ public:
         return skeleton_minion != nullptr; 
     }
     int get_skeleton_health() const;
+	int get_skeleton_defense() const;
 };
 
 #endif
